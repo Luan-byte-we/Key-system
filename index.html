@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔑 Key System Premium - Roblox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .tab:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%);
+        }
+
+        .btn-pause {
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+        }
+
+        .btn-blacklist {
+            background: linear-gradient(135deg, #000000 0%, #434343 100%);
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 12px;
+            margin: 2px;
+        }
+
+        .key-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+            word-break: break-all;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 10px;
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .status-ativo { background: #d4edda; color: #155724; }
+        .status-pausado { background: #fff3cd; color: #856404; }
+        .status-usado { background: #cce5ff; color: #004085; }
+        .status-expirado { background: #f8d7da; color: #721c24; }
+        .status-blacklist { background: #343a40; color: white; }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .script-box {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+            position: relative;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card h3 { font-size: 14px; opacity: 0.9; margin-bottom: 10px; }
+        .stat-card .number { font-size: 28px; font-weight: 700; }
+
+        .hidden { display: none; }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideInRight 0.3s ease;
+        }
+
+        .toast.success { border-left: 4px solid #48c6ef; }
+        .toast.error { border-left: 4px solid #ff0844; }
+        .toast.warning { border-left: 4px solid #ffd700; }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .blacklist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #343a40;
+        }
+
+        .blacklist-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .blacklist-nick { font-weight: 600; color: #333; }
+        .blacklist-date { color: #666; font-size: 12px; }
+
+        .key-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .key-item {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔑 Key System Premium - Roblox</h1>
+            <p>Sistema completo de gerenciamento de chaves</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="mudarAba('gerar')">🎫 Gerar Chave</button>
+            <button class="tab" onclick="mudarAba('validar')">✅ Validar</button>
+            <button class="tab" onclick="mudarAba('individual')">⚙️ Individual</button>
+            <button class="tab" onclick="mudarAba('massa')">⚡ Massa</button>
+            <button class="tab" onclick="mudarAba('blacklist')">⛔ Blacklist</button>
+            <button class="tab" onclick="mudarAba('script')">📜 Script</button>
+            <button class="tab" onclick="mudarAba('lista')">📋 Lista</button>
+        </div>
+
+        <!-- Aba Gerar -->
+        <div id="aba-gerar" class="tab-content active">
+            <div class="card">
+                <h2>🎫 Gerar Nova Chave</h2>
+                <div class="form-group">
+                    <label>Nickname do Roblox:</label>
+                    <input type="text" id="nickname" placeholder="Digite o nickname">
+                </div>
+                <div class="form-group">
+                    <label>Dias de Validade:</label>
+                    <input type="number" id="diasValidade" min="1" value="30">
+                </div>
+                <div class="form-group">
+                    <label>Quantidade:</label>
+                    <input type="number" id="quantidade" min="1" max="10" value="1">
+                </div>
+                <button class="btn" onclick="gerarChaves()">🔑 Gerar Chaves</button>
+                <div id="chavesGeradasContainer"></div>
+            </div>
+        </div>
+
+        <!-- Aba Validar -->
+        <div id="aba-validar" class="tab-content">
+            <div class="card">
+                <h2>✅ Validar Chave</h2>
+                <div class="form-group">
+                    <label>Chave:</label>
+                    <input type="text" id="chaveValidar" placeholder="XXXX-XXXX-XXXX-XXXX">
+                </div>
+                <div class="form-group">
+                    <label>Nickname:</label>
+                    <input type="text" id="nickValidar" placeholder="Seu nickname">
+                </div>
+                <button class="btn" onclick="validarChave()">🔍 Validar</button>
+                <div id="resultadoValidacao" class="key-display hidden"></div>
+            </div>
+        </div>
+
+        <!-- Aba Individual -->
+        <div id="aba-individual" class="tab-content">
+            <div class="card">
+                <h2>⚙️ Controle Individual</h2>
+                <div class="form-group">
+                    <label>Chave:</label>
+                    <input type="text" id="chaveControle" placeholder="Digite a chave">
+                </div>
+                <div class="form-group">
+                    <label>Dias:</label>
+                    <input type="number" id="diasAdicionar" min="1" value="7">
+                </div>
+                <button class="btn btn-success" onclick="adicionarTempoChave()">➕ Adicionar Tempo</button>
+                <button class="btn btn-pause" onclick="pausarChave()">⏸️ Pausar</button>
+                <button class="btn btn-success" onclick="reativarChave()">▶️ Reativar</button>
+                <div id="resultadoControle" class="key-display hidden"></div>
+            </div>
+        </div>
+
+        <!-- Aba Massa -->
+        <div id="aba-massa" class="tab-content">
+            <div class="card">
+                <h2>⚡ Controle em Massa</h2>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>Total</h3><div class="number" id="totalChaves">0</div></div>
+                    <div class="stat-card"><h3>Ativas</h3><div class="number" id="chavesAtivas">0</div></div>
+                    <div class="stat-card"><h3>Pausadas</h3><div class="number" id="chavesPausadas">0</div></div>
+                </div>
+                <div class="form-group">
+                    <label>Dias para adicionar:</label>
+                    <input type="number" id="diasAdicionarTodas" value="7">
+                </div>
+                <button class="btn btn-success" onclick="adicionarTempoTodas()">➕ Adicionar a Todas</button>
+                <button class="btn btn-pause" onclick="pausarTodasChaves()">⏸️ Pausar Todas</button>
+                <button class="btn btn-success" onclick="reativarTodasChaves()">▶️ Reativar Todas</button>
+                <button class="btn btn-danger" onclick="limparTodasChaves()">🗑️ Limpar Todas</button>
+            </div>
+        </div>
+
+        <!-- Aba Blacklist -->
+        <div id="aba-blacklist" class="tab-content">
+            <div class="card">
+                <h2>⛔ Blacklist</h2>
+                <div class="stats-grid">
+                    <div class="stat-card" style="background: #000;">
+                        <h3>Bloqueados</h3>
+                        <div class="number" id="totalBlacklist">0</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nickname:</label>
+                    <input type="text" id="nickBlacklist" placeholder="Nick para bloquear">
+                </div>
+                <button class="btn btn-blacklist" onclick="adicionarBlacklist()">⛔ Bloquear</button>
+                <h3 style="margin: 30px 0 15px;">📋 Lista de Bloqueados</h3>
+                <div id="listaBlacklist" class="table-container" style="padding: 15px;"></div>
+            </div>
+        </div>
+
+        <!-- Aba Script -->
+        <div id="aba-script" class="tab-content">
+            <div class="card">
+                <h2>📜 Script para Roblox</h2>
+                <p>Use este script no seu executor (substitua pela sua chave):</p>
+                <div class="script-box">
+                    <button class="copy-btn" onclick="copiarTexto('_G.Key =  \"SUA_CHAVE_AQUI\"\nloadstring(game:HttpGet(\"https://SEU-SITE.com/script.lua\"))()')">📋 Copiar</button>
+                    <pre>_G.Key =  "SUA_CHAVE_AQUI"
+loadstring(game:HttpGet("https://SEU-SITE.com/script.lua"))()</pre>
+                </div>
+                <div class="form-group">
+                    <label>Gerar script com sua chave:</label>
+                    <input type="text" id="chaveScript" placeholder="Digite sua chave">
+                </div>
+                <button class="btn" onclick="gerarScript()">📋 Gerar Script Personalizado</button>
+                <div id="scriptPersonalizado" class="script-box hidden">
+                    <button class="copy-btn" onclick="copiarScriptPersonalizado()">📋 Copiar</button>
+                    <pre id="scriptPersonalizadoTexto"></pre>
+                </div>
+                <div class="script-box" style="background: #2d2d2d; margin-top: 20px;">
+                    <h3 style="color: white; margin-bottom: 10px;">🔗 URL da API:</h3>
+                    <p style="color: #aaa;">Use esta URL para verificar chaves no seu script Lua:</p>
+                    <code style="color: #6f8fef;">https://SEU-SITE.com/api/verify?key=CHAVE&nick=NICK</code>
+                    <p style="color: #aaa; margin-top: 10px;">Respostas possíveis:</p>
+                    <ul style="color: #aaa; list-style: none;">
+                        <li>✅ "valida" - Chave válida</li>
+                        <li>❌ "invalida" - Chave inválida</li>
+                        <li>⛔ "blacklist" - Usuário na blacklist</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aba Lista -->
+        <div id="aba-lista" class="tab-content">
+            <div class="card">
+                <h2>📋 Lista de Chaves</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Chave</th>
+                                <th>Nickname</th>
+                                <th>Status</th>
+                                <th>Criação</th>
+                                <th>Expiração</th>
+                                <th>Dias</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoTabelaChaves"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script>
+        // Sistema de notificações
+        function mostrarToast(mensagem, tipo = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = mensagem;
+            toast.className = `toast ${tipo}`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        // Função para copiar texto
+        function copiarTexto(texto) {
+            navigator.clipboard.writeText(texto).then(() => {
+                mostrarToast('✅ Copiado para área de transferência!', 'success');
+            }).catch(() => {
+                mostrarToast('❌ Erro ao copiar!', 'error');
+            });
+        }
+
+        function copiarScriptPersonalizado() {
+            const texto = document.getElementById('scriptPersonalizadoTexto').textContent;
+            copiarTexto(texto);
+        }
+
+        // Dados
+        let keys = JSON.parse(localStorage.getItem('keys')) || [];
+        let blacklist = JSON.parse(localStorage.getItem('blacklist')) || [];
+
+        function salvarKeys() {
+            localStorage.setItem('keys', JSON.stringify(keys));
+            atualizarTabela();
+            atualizarStats();
+        }
+
+        function salvarBlacklist() {
+            localStorage.setItem('blacklist', JSON.stringify(blacklist));
+            atualizarBlacklist();
+            atualizarStats();
+        }
+
+        function verificarBlacklist(nick) {
+            return blacklist.some(item => item.nickname.toLowerCase() === nick.toLowerCase());
+        }
+
+        function gerarChaveAleatoria() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let chave = '';
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) chave += chars[Math.floor(Math.random() * chars.length)];
+                if (i < 3) chave += '-';
+            }
+            return chave;
+        }
+
+        function gerarChaves() {
+            const nick = document.getElementById('nickname').value.trim();
+            const dias = parseInt(document.getElementById('diasValidade').value);
+            const qtd = parseInt(document.getElementById('quantidade').value);
+            
+            if (!nick) return mostrarToast('Digite o nickname!', 'error');
+            if (verificarBlacklist(nick)) return mostrarToast(`⛔ ${nick} está na blacklist!`, 'error');
+            
+            const expiracao = new Date();
+            expiracao.setDate(expiracao.getDate() + dias);
+            
+            const novas = [];
+            for (let i = 0; i < qtd; i++) {
+                const chave = {
+                    key: gerarChaveAleatoria(),
+                    nickname: nick,
+                    createdAt: new Date().toISOString(),
+                    expiresAt: expiracao.toISOString(),
+                    used: false,
+                    paused: false,
+                    usedBy: null,
+                    usedAt: null
+                };
+                keys.push(chave);
+                novas.push(chave.key);
+            }
+            
+            salvarKeys();
+            
+            // Mostrar chaves geradas com botões de copiar
+            const container = document.getElementById('chavesGeradasContainer');
+            let html = '<div class="key-display">✅ Chaves Geradas:<br><br>';
+            novas.forEach(key => {
+                html += `<div style="display: flex; align-items: center; justify-content: space-between; margin: 5px 0; padding: 5px; background: rgba(255,255,255,0.1); border-radius: 5px;">
+                    <span>${key}</span>
+                    <button class="copy-btn" onclick="copiarTexto('${key}')" style="position: relative; top: 0;">📋 Copiar</button>
+                </div>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+            
+            mostrarToast(`${qtd} chave(s) gerada(s)!`, 'success');
+        }
+
+        function validarChave() {
+            const chave = document.getElementById('chaveValidar').value.trim().toUpperCase();
+            const nick = document.getElementById('nickValidar').value.trim();
+            const resultado = document.getElementById('resultadoValidacao');
+            
+            if (!chave || !nick) return mostrarToast('Preencha tudo!', 'error');
+            if (verificarBlacklist(nick)) {
+                resultado.innerHTML = '⛔ Você está na blacklist!';
+                resultado.style.background = 'linear-gradient(135deg, #000 0%, #434343 100%)';
+                resultado.classList.remove('hidden');
+                return;
+            }
+            
+            const chaveEncontrada = keys.find(k => k.key === chave);
+            if (!chaveEncontrada) {
+                resultado.innerHTML = '❌ Chave inválida!';
+                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
+            } else if (chaveEncontrada.used) {
+                resultado.innerHTML = `❌ Já usada por ${chaveEncontrada.usedBy}!`;
+                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
+            } else if (chaveEncontrada.paused) {
+                resultado.innerHTML = '❌ Chave pausada!';
+                resultado.style.background = 'linear-gradient(135deg, #ffd700 0%, #ff8c00 100%)';
+            } else if (chaveEncontrada.nickname !== nick) {
+                resultado.innerHTML = `❌ Pertence a ${chaveEncontrada.nickname}!`;
+                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
+            } else if (new Date(chaveEncontrada.expiresAt) < new Date()) {
+                resultado.innerHTML = '❌ Chave expirada!';
+                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
+            } else {
+                resultado.innerHTML = '✅ Chave válida! Acesso liberado.';
+                resultado.style.background = 'linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%)';
+                chaveEncontrada.used = true;
+                chaveEncontrada.usedBy = nick;
+                chaveEncontrada.usedAt = new Date().toISOString();
+                salvarKeys();
+            }
+            resultado.classList.remove('hidden');
+            setTimeout(() => resultado.classList.add('hidden'), 5000);
+        }
+
+        function adicionarTempoChave() {
+            const chave = document.getElementById('chaveControle').value.trim().toUpperCase();
+            const dias = parseInt(document.getElementById('diasAdicionar').value);
+            const resultado = document.getElementById('resultadoControle');
+            
+            const chaveEncontrada = keys.find(k => k.key === chave);
+            if (!chaveEncontrada) {
+                resultado.innerHTML = '❌ Chave não encontrada!';
+                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
+            } else {
+                const exp = new Date(chaveEncontrada.expiresAt);
+                exp.setDate(exp.getDate() + dias);
+                chaveEncontrada.expiresAt = exp.toISOString();
+                salvarKeys();
+                resultado.innerHTML = `✅ Adicionado ${dias} dias!`;
+                resultado.style.background = 'linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%)';
+            }
+            resultado.classList.remove('hidden');
+            setTimeout(() => resultado.classList.add('hidden'), 3000);
+        }
+
+        function pausarChave() {
+            const chave = document.getElementById('chaveControle').value.trim().toUpperCase();
+            const resultado = document.getElementById('resultadoControle');
+            
+            const chaveEncontrada = keys.find(k => k.key === chave);
+            if (!chaveEncontrada) {
+                resultado.innerHTML = '❌ Chave não encontrada!';
+                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
+            } else {
+                chaveEncontrada.paused = true;
+                salvarKeys();
+                resultado.innerHTML = '⏸️ Chave pausada!';
+                resultado.style.background = 'linear-gradient(135deg, #ffd700 0%, #ff8c00 100%)';
+            }
+            resultado.classList.remove('hidden');
+            setTimeout(() => resultado.classList.add('hidden'), 3000);
+        }
+
+        function reativarChave() {
+            const chave = document.getElementById('chaveControle').value.trim().toUpperCase();
+            const resultado = document.getElementById('resultadoControle');
+            
+            const chaveEncontrada = keys.find(k => k.key === chave);
+            if (!chaveEncontrada) {
+                resultado.innerHTML = '❌ Chave não encontrada!';
+                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
+            } else {
+                chaveEncontrada.paused = false;
+                salvarKeys();
+                resultado.innerHTML = '▶️ Chave reativada!';
+                resultado.style.background = 'linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%)';
+            }
+            resultado.classList.remove('hidden');
+            setTimeout(() => resultado.classList.add('hidden'), 3000);
+        }
+
+        function adicionarTempoTodas() {
+            const dias = parseInt(document.getElementById('diasAdicionarTodas').value);
+            keys.forEach(k => {
+                const exp = new Date(k.expiresAt);
+                exp.setDate(exp.getDate() + dias);
+                k.expiresAt = exp.toISOString();
+            });
+            salvarKeys();
+            mostrarToast(`✅ ${dias} dias adicionados a todas!`, 'success');
+        }
+
+        function pausarTodasChaves() {
+            keys.forEach(k => k.paused = true);
+            salvarKeys();
+            mostrarToast('⏸️ Todas pausadas!', 'success');
+        }
+
+        function reativarTodasChaves() {
+            keys.forEach(k => k.paused = false);
+            salvarKeys();
+            mostrarToast('▶️ Todas reativadas!', 'success');
+        }
+
+        function limparTodasChaves() {
+            if (confirm('Limpar TODAS as chaves?')) {
+                keys = [];
+                salvarKeys();
+                mostrarToast('🗑️ Todas removidas!', 'success');
+            }
+        }
+
+        function adicionarBlacklist() {
+            const nick = document.getElementById('nickBlacklist').value.trim();
+            if (!nick) return mostrarToast('Digite um nickname!', 'error');
+            if (verificarBlacklist(nick)) return mostrarToast('Já está na blacklist!', 'warning');
+            
+            blacklist.push({ nickname: nick, date: new Date().toISOString() });
+            salvarBlacklist();
+            document.getElementById('nickBlacklist').value = '';
+            mostrarToast(`⛔ ${nick} bloqueado!`, 'success');
+        }
+
+        function removerBlacklist(nick) {
+            if (confirm(`Remover ${nick} da blacklist?`)) {
+                blacklist = blacklist.filter(item => item.nickname !== nick);
+                salvarBlacklist();
+                mostrarToast(`✅ ${nick} removido!`, 'success');
+            }
+        }
+
+        function pausarChaveTabela(key) {
+            const chave = keys.find(k => k.key === key);
+            if (chave) { chave.paused = true; salvarKeys(); mostrarToast(`⏸️ ${key} pausada!`, 'success'); }
+        }
+
+        function reativarChaveTabela(key) {
+            const chave = keys.find(k => k.key === key);
+            if (chave) { chave.paused = false; salvarKeys(); mostrarToast(`▶️ ${key} reativada!`, 'success'); }
+        }
+
+        function adicionarTempoTabela(key) {
+            const dias = prompt('Dias para adicionar?', '7');
+            if (dias && !isNaN(dias) && parseInt(dias) > 0) {
+                const chave = keys.find(k => k.key === key);
+                if (chave) {
+                    const exp = new Date(chave.expiresAt);
+                    exp.setDate(exp.getDate() + parseInt(dias));
+                    chave.expiresAt = exp.toISOString();
+                    salvarKeys();
+                    mostrarToast(`✅ Adicionado ${dias} dias!`, 'success');
+                }
+            }
+        }
+
+        function excluirChaveTabela(key) {
+            if (confirm(`Excluir chave ${key}?`)) {
+                keys = keys.filter(k => k.key !== key);
+                salvarKeys();
+                mostrarToast(`🗑️ ${key} excluída!`, 'success');
+            }
+        }
+
+        function atualizarTabela() {
+            const tbody = document.getElementById('corpoTabelaChaves');
+            if (keys.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Nenhuma chave</td></tr>';
+                return;
+            }
+            
+            keys.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            tbody.innerHTML = keys.map(key => {
+                const exp = new Date(key.expiresAt);
+                const dias = Math.ceil((exp - new Date()) / (1000*60*60*24));
+                const naBlacklist = verificarBlacklist(key.nickname);
+                
+                let status = 'status-ativo', texto = 'Ativa';
+                if (naBlacklist) { status = 'status-blacklist'; texto = 'Blacklist'; }
+                else if (key.paused) { status = 'status-pausado'; texto = 'Pausada'; }
+                else if (key.used) { status = 'status-usado'; texto = 'Usada'; }
+                else if (exp < new Date()) { status = 'status-expirado'; texto = 'Expirada'; }
+                
+                return `<tr>
+                    <td><strong>${key.key}</strong></td>
+                    <td>${key.nickname} ${naBlacklist ? '⛔' : ''}</td>
+                    <td><span class="status-badge ${status}">${texto}</span></td>
+                    <td>${new Date(key.createdAt).toLocaleDateString()}</td>
+                    <td>${new Date(key.expiresAt).toLocaleDateString()}</td>
+                    <td>${dias > 0 ? dias : 0}</td>
+                    <td>
+                        <div class="action-buttons">
+                            ${key.paused ? 
+                                `<button class="btn btn-sm btn-success" onclick="reativarChaveTabela('${key.key}')">▶️</button>` : 
+                                `<button class="btn btn-sm btn-pause" onclick="pausarChaveTabela('${key.key}')">⏸️</button>`
+                            }
+                            <button class="btn btn-sm btn-success" onclick="adicionarTempoTabela('${key.key}')">➕</button>
+                            <button class="btn btn-sm btn-danger" onclick="excluirChaveTabela('${key.key}')">🗑️</button>
+                            <button class="btn btn-sm btn-copy" onclick="copiarTexto('${key.key}')">📋</button>
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function atualizarBlacklist() {
+            const container = document.getElementById('listaBlacklist');
+            if (blacklist.length === 0) {
+                container.innerHTML = '<p style="text-align: center; padding: 20px;">Nenhum bloqueado</p>';
+                return;
+            }
+            container.innerHTML = blacklist.map(item => `
+                <div class="blacklist-item">
+                    <div class="blacklist-info">
+                        <span class="blacklist-nick">⛔ ${item.nickname}</span>
+                        <span class="blacklist-date">${new Date(item.date).toLocaleDateString()}</span>
+                    </div>
+                    <button class="btn btn-sm btn-success" onclick="removerBlacklist('${item.nickname}')">✅</button>
+                </div>
+            `).join('');
+        }
+
+        function atualizarStats() {
+            document.getElementById('totalChaves').textContent = keys.length;
+            document.getElementById('chavesAtivas').textContent = keys.filter(k => !k.used && !k.paused && new Date(k.expiresAt) > new Date() && !verificarBlacklist(k.nickname)).length;
+            document.getElementById('chavesPausadas').textContent = keys.filter(k => k.paused).length;
+            document.getElementById('totalBlacklist').textContent = blacklist.length;
+        }
+
+        function gerarScript() {
+            const chave = document.getElementById('chaveScript').value.trim().toUpperCase();
+            const scriptDiv = document.getElementById('scriptPersonalizado');
+            const scriptTexto = document.getElementById('scriptPersonalizadoTexto');
+            
+            if (!chave) return mostrarToast('Digite uma chave!', 'error');
+            if (!keys.find(k => k.key === chave)) return mostrarToast('Chave inválida!', 'error');
+            
+            const script = `_G.Key =  "${chave}"\nloadstring(game:HttpGet("https://SEU-SITE.com/script.lua"))()`;
+            scriptTexto.textContent = script;
+            scriptDiv.classList.remove('hidden');
+            mostrarToast('Script gerado!', 'success');
+        }
+
+        function mudarAba(aba) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`aba-${aba}`).classList.add('active');
+        }
+
+        // API de verificação
+        window.addEventListener('load', function() {
+            const params = new URLSearchParams(window.location.search);
+            const key = params.get('key');
+            const nick = params.get('nick');
+            
+            if (key && nick) {
+                if (verificarBlacklist(nick)) { 
+                    document.body.innerHTML = 'blacklist'; 
+                    return; 
+                }
+                
+                const chave = keys.find(k => k.key === key.toUpperCase());
+                if (chave && !chave.used && !chave.paused && chave.nickname === nick && new Date(chave.expiresAt) > new Date()) {
+                    document.body.innerHTML = 'valida';
+                } else {
+                    document.body.innerHTML = 'invalida';
+                }
+            }
+        });
+
+        // Inicialização
+        atualizarTabela();
+        atualizarBlacklist();
+        atualizarStats();
+    </script>
+</body>
+</html>
