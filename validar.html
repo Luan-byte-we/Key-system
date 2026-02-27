@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Key Validation</title>
+</head>
+<body>
+    <script>
+        // ============================================
+        // BANCO DE DADOS DE CHAVES (ATUALIZE AQUI!)
+        // ============================================
+        const keysDatabase = {
+            // Formato: "CHAVE": { nick: "NICK", hwid: "HWID" }
+            "9HIU-KTN9-Z4KZ-UROK": { 
+                nick: "BaconRico92", 
+                hwid: "12345"  // HWID será verificado depois
+            },
+            "TESTE-1234-ABCD-5678": { 
+                nick: "JogadorTeste", 
+                hwid: "67890" 
+            },
+            "GUSTA-HUB3-2025-0001": { 
+                nick: "Gusta", 
+                hwid: "54321" 
+            }
+        };
+        
+        // Blacklist
+        const blacklist = [
+            "HackerMalvado",
+            "Spammer123"
+        ];
+        
+        // Pegar parâmetros da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const key = urlParams.get('key');
+        const nick = urlParams.get('nick');
+        const hwid = urlParams.get('hwid');
+        
+        // Log para debug
+        console.log("🔑 Validando:", { key, nick, hwid });
+        
+        // Verificar se veio os parâmetros
+        if (!key || !nick) {
+            document.write("invalida");
+            return;
+        }
+        
+        // Verificar blacklist
+        if (blacklist.includes(nick)) {
+            document.write("blacklist");
+            return;
+        }
+        
+        // Verificar se a chave existe
+        const keyData = keysDatabase[key];
+        if (!keyData) {
+            document.write("invalida");
+            return;
+        }
+        
+        // Verificar se o nick corresponde
+        if (keyData.nick !== nick) {
+            document.write("invalida");
+            return;
+        }
+        
+        // Verificar HWID (se foi fornecido)
+        if (hwid && keyData.hwid && keyData.hwid !== hwid) {
+            document.write("invalida");
+            return;
+        }
+        
+        // Tudo válido!
+        document.write("valida");
+    </script>
+</body>
+</html>
