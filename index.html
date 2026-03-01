@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔑 Key System Premium - Roblox</title>
+    <title>🔥 Key System Firebase - Roblox</title>
     <style>
         * {
             margin: 0;
@@ -24,7 +24,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF8C00 0%, #FF4500 100%);
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
@@ -37,8 +37,21 @@
             margin-bottom: 10px;
         }
 
-        .header p {
-            opacity: 0.9;
+        .status-indicators {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .status-item {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .tabs {
@@ -71,7 +84,7 @@
         }
 
         .tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF8C00 0%, #FF4500 100%);
         }
 
         .card {
@@ -111,11 +124,11 @@
 
         .form-group input:focus, .form-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #FF8C00;
         }
 
         .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF8C00 0%, #FF4500 100%);
             color: white;
             border: none;
             padding: 12px 25px;
@@ -129,11 +142,11 @@
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 20px rgba(255, 140, 0, 0.3);
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%);
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
         }
 
         .btn-pause {
@@ -159,7 +172,7 @@
         }
 
         .key-display {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF8C00 0%, #FF4500 100%);
             color: white;
             padding: 20px;
             border-radius: 10px;
@@ -203,7 +216,7 @@
         }
 
         th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF8C00 0%, #FF4500 100%);
             color: white;
             padding: 15px;
             text-align: left;
@@ -227,15 +240,15 @@
             font-size: 12px;
             font-weight: 600;
             display: inline-block;
-            min-width: 80px;
+            min-width: 100px;
             text-align: center;
         }
 
-        .status-ativo { background: #d4edda; color: #155724; }
-        .status-pausado { background: #fff3cd; color: #856404; }
-        .status-usado { background: #cce5ff; color: #004085; }
-        .status-expirado { background: #f8d7da; color: #721c24; }
+        .status-valida { background: #d4edda; color: #155724; }
         .status-blacklist { background: #343a40; color: white; }
+        .status-pausada { background: #fff3cd; color: #856404; }
+        .status-usada { background: #cce5ff; color: #004085; }
+        .status-expirada { background: #f8d7da; color: #721c24; }
 
         .action-buttons {
             display: flex;
@@ -253,7 +266,7 @@
             overflow-x: auto;
             white-space: pre-wrap;
             margin: 15px 0;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #FF8C00;
             position: relative;
         }
 
@@ -279,7 +292,7 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF8C00 0%, #FF4500 100%);
             color: white;
             padding: 20px;
             border-radius: 10px;
@@ -303,7 +316,7 @@
             animation: slideInRight 0.3s ease;
         }
 
-        .toast.success { border-left: 4px solid #48c6ef; }
+        .toast.success { border-left: 4px solid #00b09b; }
         .toast.error { border-left: 4px solid #ff0844; }
         .toast.warning { border-left: 4px solid #ffd700; }
 
@@ -334,7 +347,7 @@
 
         .loading-spinner {
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            border-top: 3px solid #FF8C00;
             border-radius: 50%;
             width: 30px;
             height: 30px;
@@ -346,13 +359,36 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .firebase-status {
+            background: rgba(255,140,0,0.1);
+            border: 1px solid #FF8C00;
+            border-radius: 5px;
+            padding: 5px 10px;
+            display: inline-block;
+            font-size: 12px;
+            color: #FF8C00;
+            margin-bottom: 10px;
+        }
     </style>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔑 Key System Premium - Roblox</h1>
-            <p>Sistema completo de gerenciamento de chaves com salvamento online</p>
+            <h1>🔥 Key System Firebase - Roblox</h1>
+            <p>Sistema completo com banco de dados em tempo real</p>
+            <div class="firebase-status" id="firebaseStatus">🔄 Conectando ao Firebase...</div>
+            <div class="status-indicators">
+                <span class="status-item">✅ Válida</span>
+                <span class="status-item">⛔ Blacklist</span>
+                <span class="status-item">⏸️ Pausada</span>
+                <span class="status-item">⚠️ Usada</span>
+                <span class="status-item">⌛ Expirada</span>
+            </div>
         </div>
 
         <div class="tabs">
@@ -368,7 +404,7 @@
         <!-- Loading Overlay -->
         <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
             <div class="loading-spinner"></div>
-            <p style="color: white; margin-top: 20px;">Sincronizando com a nuvem...</p>
+            <p style="color: white; margin-top: 20px;">Sincronizando com Firebase...</p>
         </div>
 
         <!-- Aba Gerar -->
@@ -434,8 +470,10 @@
                 <h2>⚡ Controle em Massa</h2>
                 <div class="stats-grid">
                     <div class="stat-card"><h3>Total</h3><div class="number" id="totalChaves">0</div></div>
-                    <div class="stat-card"><h3>Ativas</h3><div class="number" id="chavesAtivas">0</div></div>
-                    <div class="stat-card"><h3>Pausadas</h3><div class="number" id="chavesPausadas">0</div></div>
+                    <div class="stat-card"><h3>✅ Válidas</h3><div class="number" id="chavesValidas">0</div></div>
+                    <div class="stat-card"><h3>⏸️ Pausadas</h3><div class="number" id="chavesPausadas">0</div></div>
+                    <div class="stat-card"><h3>⚠️ Usadas</h3><div class="number" id="chavesUsadas">0</div></div>
+                    <div class="stat-card"><h3>⌛ Expiradas</h3><div class="number" id="chavesExpiradas">0</div></div>
                 </div>
                 <div class="form-group">
                     <label>Dias para adicionar:</label>
@@ -472,7 +510,7 @@
         <div id="aba-script" class="tab-content">
             <div class="card">
                 <h2>📜 Script para Roblox</h2>
-                <p>Use este script no seu executor (substitua pela sua chave):</p>
+                <p>Use este script no seu executor:</p>
                 <div class="script-box">
                     <button class="copy-btn" onclick="copiarTexto('_G.Key =  \"SUA_CHAVE_AQUI\"\nloadstring(game:HttpGet(\"https://key-system-kappa.vercel.app/script.lua\"))()')">📋 Copiar</button>
                     <pre>_G.Key =  "SUA_CHAVE_AQUI"
@@ -488,15 +526,9 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
                     <pre id="scriptPersonalizadoTexto"></pre>
                 </div>
                 <div class="script-box" style="background: #2d2d2d; margin-top: 20px;">
-                    <h3 style="color: white; margin-bottom: 10px;">🔗 URL da API:</h3>
-                    <p style="color: #aaa;">Use esta URL para verificar chaves no seu script Lua:</p>
-                    <code style="color: #6f8fef;">https://key-system-kappa.vercel.app/api/verify?key=CHAVE&nick=NICK</code>
-                    <p style="color: #aaa; margin-top: 10px;">Respostas possíveis:</p>
-                    <ul style="color: #aaa; list-style: none;">
-                        <li>✅ "valida" - Chave válida</li>
-                        <li>❌ "invalida" - Chave inválida</li>
-                        <li>⛔ "blacklist" - Usuário na blacklist</li>
-                    </ul>
+                    <h3 style="color: white; margin-bottom: 10px;">🔗 Firebase API:</h3>
+                    <p style="color: #aaa;">URL do banco de dados:</p>
+                    <code style="color: #FF8C00;">https://key-system-roblox-default-rtdb.firebaseio.com/</code>
                 </div>
             </div>
         </div>
@@ -529,15 +561,27 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
 
     <script>
         // ============================================
-        // CONFIGURAÇÃO - SUAS CREDENCIAIS
+        // CONFIGURAÇÃO DO FIREBASE
         // ============================================
-        const JSONBIN_MASTER_KEY = "$2a$10$IV7ov5d.s7hG7Huw.BscCuO01HXp88LHOjynuLpB5KdRQhClyQbmO";
-        const JSONBIN_ACCESS_KEY = "$2a$10$Xp0H6m.qKehLm4Bf6ExqAeGTlaq.En0dQeqFohvvzf3bhWtIz.LMO";
-        const JSONBIN_BIN_ID = "69a0f3bd43b1c97be9a202d2";
-        const SITE_URL = "https://key-system-kappa.vercel.app";
-        // ============================================
+        const firebaseConfig = {
+            databaseURL: "https://key-system-roblox-default-rtdb.firebaseio.com"
+        };
 
-        // Sistema de notificações
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        // Referências do banco
+        const keysRef = database.ref('keys');
+        const blacklistRef = database.ref('blacklist');
+        
+        // Atualizar status
+        document.getElementById('firebaseStatus').innerHTML = '✅ Conectado ao Firebase!';
+
+        // ============================================
+        // FUNÇÕES DE NOTIFICAÇÃO
+        // ============================================
+        
         function mostrarToast(mensagem, tipo = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = mensagem;
@@ -546,115 +590,15 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
 
-        // Loading overlay
         function mostrarLoading(mostrar) {
             const overlay = document.getElementById('loadingOverlay');
             overlay.style.display = mostrar ? 'flex' : 'none';
         }
 
-        // Dados globais
-        let keys = [];
-        let blacklist = [];
-
         // ============================================
-        // FUNÇÕES DE SINCRONIZAÇÃO COM JSONBIN
+        // FUNÇÕES DE UTILIDADE
         // ============================================
         
-        // Carregar dados do JSONBin
-        async function carregarDados() {
-            try {
-                mostrarLoading(true);
-                
-                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-                    headers: {
-                        'X-Master-Key': JSONBIN_MASTER_KEY,
-                        'X-Access-Key': JSONBIN_ACCESS_KEY
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                keys = data.record.keys || [];
-                blacklist = data.record.blacklist || [];
-                
-                atualizarTabela();
-                atualizarBlacklist();
-                atualizarStats();
-                
-                mostrarToast('✅ Dados carregados da nuvem!', 'success');
-                console.log('✅ Dados carregados:', keys);
-                
-            } catch (error) {
-                console.error('❌ Erro ao carregar:', error);
-                mostrarToast('❌ Erro ao carregar dados - Usando cache local', 'error');
-                
-                // Fallback para localStorage
-                keys = JSON.parse(localStorage.getItem('keys')) || [];
-                blacklist = JSON.parse(localStorage.getItem('blacklist')) || [];
-                
-                atualizarTabela();
-                atualizarBlacklist();
-                atualizarStats();
-            } finally {
-                mostrarLoading(false);
-            }
-        }
-
-        // Salvar dados no JSONBin
-        async function salvarDados() {
-            try {
-                mostrarLoading(true);
-                
-                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_MASTER_KEY,
-                        'X-Access-Key': JSONBIN_ACCESS_KEY
-                    },
-                    body: JSON.stringify({ keys, blacklist })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                // Backup no localStorage
-                localStorage.setItem('keys', JSON.stringify(keys));
-                localStorage.setItem('blacklist', JSON.stringify(blacklist));
-                
-                atualizarTabela();
-                atualizarBlacklist();
-                atualizarStats();
-                
-                console.log('✅ Dados salvos na nuvem');
-                
-            } catch (error) {
-                console.error('❌ Erro ao salvar:', error);
-                mostrarToast('❌ Erro ao salvar na nuvem - Dados salvos localmente', 'error');
-                
-                // Fallback: salva só no localStorage
-                localStorage.setItem('keys', JSON.stringify(keys));
-                localStorage.setItem('blacklist', JSON.stringify(blacklist));
-                
-                atualizarTabela();
-                atualizarBlacklist();
-                atualizarStats();
-            } finally {
-                mostrarLoading(false);
-            }
-        }
-
-        // ============================================
-        // FUNÇÕES DE VERIFICAÇÃO
-        // ============================================
-        function verificarBlacklist(nick) {
-            return blacklist.some(item => item.nickname.toLowerCase() === nick.toLowerCase());
-        }
-
         function gerarChaveAleatoria() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let chave = '';
@@ -663,6 +607,90 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
                 if (i < 3) chave += '-';
             }
             return chave;
+        }
+
+        function formatarChaveParaFirebase(key) {
+            return key.replace(/-/g, '_');
+        }
+
+        function formatarChaveDoFirebase(key) {
+            return key.replace(/_/g, '-');
+        }
+
+        // ============================================
+        // FUNÇÕES DE CARREGAMENTO DE DADOS
+        // ============================================
+        
+        let keys = [];
+        let blacklist = [];
+
+        function carregarDados() {
+            mostrarLoading(true);
+            
+            // Carregar keys
+            keysRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    keys = Object.entries(data).map(([key, value]) => ({
+                        ...value,
+                        key: formatarChaveDoFirebase(key)
+                    }));
+                } else {
+                    keys = [];
+                }
+                atualizarTabela();
+                atualizarStats();
+                mostrarLoading(false);
+            });
+            
+            // Carregar blacklist
+            blacklistRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                blacklist = data ? Object.values(data) : [];
+                atualizarBlacklist();
+                atualizarStats();
+            });
+        }
+
+        // ============================================
+        // FUNÇÕES DE SALVAMENTO
+        // ============================================
+        
+        async function salvarKey(keyData) {
+            const keyPath = formatarChaveParaFirebase(keyData.key);
+            await keysRef.child(keyPath).set(keyData);
+        }
+
+        async function removerKey(key) {
+            const keyPath = formatarChaveParaFirebase(key);
+            await keysRef.child(keyPath).remove();
+        }
+
+        async function salvarBlacklistItem(item) {
+            await blacklistRef.child(item.nickname).set(item);
+        }
+
+        async function removerBlacklistItem(nick) {
+            await blacklistRef.child(nick).remove();
+        }
+
+        // ============================================
+        // FUNÇÕES DE VERIFICAÇÃO
+        // ============================================
+        
+        function verificarBlacklist(nick) {
+            return blacklist.some(item => item.nickname.toLowerCase() === nick.toLowerCase());
+        }
+
+        function getStatusKey(key) {
+            const agora = new Date();
+            const expiracao = new Date(key.expiresAt);
+            
+            if (verificarBlacklist(key.nickname)) return { status: 'blacklist', texto: '⛔ Blacklist', classe: 'status-blacklist' };
+            if (key.paused) return { status: 'pausada', texto: '⏸️ Pausada', classe: 'status-pausada' };
+            if (key.used) return { status: 'usada', texto: '⚠️ Usada', classe: 'status-usada' };
+            if (expiracao < agora) return { status: 'expirada', texto: '⌛ Expirada', classe: 'status-expirada' };
+            return { status: 'valida', texto: '✅ Válida', classe: 'status-valida' };
         }
 
         // ============================================
@@ -692,11 +720,9 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
                     usedBy: null,
                     usedAt: null
                 };
-                keys.push(chave);
+                await salvarKey(chave);
                 novas.push(chave.key);
             }
-            
-            await salvarDados();
             
             const container = document.getElementById('chavesGeradasContainer');
             let html = '<div class="key-display">✅ Chaves Geradas:<br><br>';
@@ -719,8 +745,6 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
             
             if (!chave || !nick) return mostrarToast('Preencha tudo!', 'error');
             
-            await carregarDados(); // Recarrega dados mais recentes
-            
             if (verificarBlacklist(nick)) {
                 resultado.innerHTML = '⛔ Você está na blacklist!';
                 resultado.style.background = 'linear-gradient(135deg, #000 0%, #434343 100%)';
@@ -729,29 +753,27 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
             }
             
             const chaveEncontrada = keys.find(k => k.key === chave);
+            
             if (!chaveEncontrada) {
-                resultado.innerHTML = '❌ Chave inválida!';
-                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
-            } else if (chaveEncontrada.used) {
-                resultado.innerHTML = `❌ Já usada por ${chaveEncontrada.usedBy}!`;
-                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
-            } else if (chaveEncontrada.paused) {
-                resultado.innerHTML = '❌ Chave pausada!';
-                resultado.style.background = 'linear-gradient(135deg, #ffd700 0%, #ff8c00 100%)';
-            } else if (chaveEncontrada.nickname !== nick) {
-                resultado.innerHTML = `❌ Pertence a ${chaveEncontrada.nickname}!`;
-                resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
-            } else if (new Date(chaveEncontrada.expiresAt) < new Date()) {
-                resultado.innerHTML = '❌ Chave expirada!';
+                resultado.innerHTML = '❌ Chave não encontrada!';
                 resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
             } else {
-                resultado.innerHTML = '✅ Chave válida! Acesso liberado.';
-                resultado.style.background = 'linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%)';
-                chaveEncontrada.used = true;
-                chaveEncontrada.usedBy = nick;
-                chaveEncontrada.usedAt = new Date().toISOString();
-                await salvarDados();
+                const status = getStatusKey(chaveEncontrada);
+                
+                if (status.status === 'valida') {
+                    resultado.innerHTML = '✅ Chave válida! Acesso liberado.';
+                    resultado.style.background = 'linear-gradient(135deg, #00b09b 0%, #96c93d 100%)';
+                    
+                    chaveEncontrada.used = true;
+                    chaveEncontrada.usedBy = nick;
+                    chaveEncontrada.usedAt = new Date().toISOString();
+                    await salvarKey(chaveEncontrada);
+                } else {
+                    resultado.innerHTML = status.texto;
+                    resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
+                }
             }
+            
             resultado.classList.remove('hidden');
             setTimeout(() => resultado.classList.add('hidden'), 5000);
         }
@@ -769,9 +791,9 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
                 const exp = new Date(chaveEncontrada.expiresAt);
                 exp.setDate(exp.getDate() + dias);
                 chaveEncontrada.expiresAt = exp.toISOString();
-                await salvarDados();
+                await salvarKey(chaveEncontrada);
                 resultado.innerHTML = `✅ Adicionado ${dias} dias!`;
-                resultado.style.background = 'linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%)';
+                resultado.style.background = 'linear-gradient(135deg, #00b09b 0%, #96c93d 100%)';
             }
             resultado.classList.remove('hidden');
             setTimeout(() => resultado.classList.add('hidden'), 3000);
@@ -787,7 +809,7 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
                 resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
             } else {
                 chaveEncontrada.paused = true;
-                await salvarDados();
+                await salvarKey(chaveEncontrada);
                 resultado.innerHTML = '⏸️ Chave pausada!';
                 resultado.style.background = 'linear-gradient(135deg, #ffd700 0%, #ff8c00 100%)';
             }
@@ -805,9 +827,9 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
                 resultado.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
             } else {
                 chaveEncontrada.paused = false;
-                await salvarDados();
+                await salvarKey(chaveEncontrada);
                 resultado.innerHTML = '▶️ Chave reativada!';
-                resultado.style.background = 'linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%)';
+                resultado.style.background = 'linear-gradient(135deg, #00b09b 0%, #96c93d 100%)';
             }
             resultado.classList.remove('hidden');
             setTimeout(() => resultado.classList.add('hidden'), 3000);
@@ -815,31 +837,34 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
 
         async function adicionarTempoTodas() {
             const dias = parseInt(document.getElementById('diasAdicionarTodas').value);
-            keys.forEach(k => {
-                const exp = new Date(k.expiresAt);
+            for (const chave of keys) {
+                const exp = new Date(chave.expiresAt);
                 exp.setDate(exp.getDate() + dias);
-                k.expiresAt = exp.toISOString();
-            });
-            await salvarDados();
+                chave.expiresAt = exp.toISOString();
+                await salvarKey(chave);
+            }
             mostrarToast(`✅ ${dias} dias adicionados a todas!`, 'success');
         }
 
         async function pausarTodasChaves() {
-            keys.forEach(k => k.paused = true);
-            await salvarDados();
+            for (const chave of keys) {
+                chave.paused = true;
+                await salvarKey(chave);
+            }
             mostrarToast('⏸️ Todas pausadas!', 'success');
         }
 
         async function reativarTodasChaves() {
-            keys.forEach(k => k.paused = false);
-            await salvarDados();
+            for (const chave of keys) {
+                chave.paused = false;
+                await salvarKey(chave);
+            }
             mostrarToast('▶️ Todas reativadas!', 'success');
         }
 
         async function limparTodasChaves() {
             if (confirm('Limpar TODAS as chaves?')) {
-                keys = [];
-                await salvarDados();
+                await keysRef.remove();
                 mostrarToast('🗑️ Todas removidas!', 'success');
             }
         }
@@ -849,28 +874,27 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
             if (!nick) return mostrarToast('Digite um nickname!', 'error');
             if (verificarBlacklist(nick)) return mostrarToast('Já está na blacklist!', 'warning');
             
-            blacklist.push({ nickname: nick, date: new Date().toISOString() });
-            await salvarDados();
+            const item = { nickname: nick, date: new Date().toISOString() };
+            await salvarBlacklistItem(item);
             document.getElementById('nickBlacklist').value = '';
             mostrarToast(`⛔ ${nick} bloqueado!`, 'success');
         }
 
         async function removerBlacklist(nick) {
             if (confirm(`Remover ${nick} da blacklist?`)) {
-                blacklist = blacklist.filter(item => item.nickname !== nick);
-                await salvarDados();
+                await removerBlacklistItem(nick);
                 mostrarToast(`✅ ${nick} removido!`, 'success');
             }
         }
 
         async function pausarChaveTabela(key) {
             const chave = keys.find(k => k.key === key);
-            if (chave) { chave.paused = true; await salvarDados(); mostrarToast(`⏸️ ${key} pausada!`, 'success'); }
+            if (chave) { chave.paused = true; await salvarKey(chave); mostrarToast(`⏸️ ${key} pausada!`, 'success'); }
         }
 
         async function reativarChaveTabela(key) {
             const chave = keys.find(k => k.key === key);
-            if (chave) { chave.paused = false; await salvarDados(); mostrarToast(`▶️ ${key} reativada!`, 'success'); }
+            if (chave) { chave.paused = false; await salvarKey(chave); mostrarToast(`▶️ ${key} reativada!`, 'success'); }
         }
 
         async function adicionarTempoTabela(key) {
@@ -881,7 +905,7 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
                     const exp = new Date(chave.expiresAt);
                     exp.setDate(exp.getDate() + parseInt(dias));
                     chave.expiresAt = exp.toISOString();
-                    await salvarDados();
+                    await salvarKey(chave);
                     mostrarToast(`✅ Adicionado ${dias} dias!`, 'success');
                 }
             }
@@ -889,16 +913,11 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
 
         async function excluirChaveTabela(key) {
             if (confirm(`Excluir chave ${key}?`)) {
-                keys = keys.filter(k => k.key !== key);
-                await salvarDados();
+                await removerKey(key);
                 mostrarToast(`🗑️ ${key} excluída!`, 'success');
             }
         }
 
-        // ============================================
-        // FUNÇÕES DE ATUALIZAÇÃO DA INTERFACE
-        // ============================================
-        
         function atualizarTabela() {
             const tbody = document.getElementById('corpoTabelaChaves');
             if (keys.length === 0) {
@@ -911,18 +930,12 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
             tbody.innerHTML = keys.map(key => {
                 const exp = new Date(key.expiresAt);
                 const dias = Math.ceil((exp - new Date()) / (1000*60*60*24));
-                const naBlacklist = verificarBlacklist(key.nickname);
-                
-                let status = 'status-ativo', texto = 'Ativa';
-                if (naBlacklist) { status = 'status-blacklist'; texto = 'Blacklist'; }
-                else if (key.paused) { status = 'status-pausado'; texto = 'Pausada'; }
-                else if (key.used) { status = 'status-usado'; texto = 'Usada'; }
-                else if (exp < new Date()) { status = 'status-expirado'; texto = 'Expirada'; }
+                const status = getStatusKey(key);
                 
                 return `<tr>
                     <td><strong>${key.key}</strong></td>
-                    <td>${key.nickname} ${naBlacklist ? '⛔' : ''}</td>
-                    <td><span class="status-badge ${status}">${texto}</span></td>
+                    <td>${key.nickname}</td>
+                    <td><span class="status-badge ${status.classe}">${status.texto}</span></td>
                     <td>${new Date(key.createdAt).toLocaleDateString()}</td>
                     <td>${new Date(key.expiresAt).toLocaleDateString()}</td>
                     <td>${dias > 0 ? dias : 0}</td>
@@ -960,18 +973,16 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
 
         function atualizarStats() {
             document.getElementById('totalChaves').textContent = keys.length;
-            document.getElementById('chavesAtivas').textContent = keys.filter(k => !k.used && !k.paused && new Date(k.expiresAt) > new Date() && !verificarBlacklist(k.nickname)).length;
+            document.getElementById('chavesValidas').textContent = keys.filter(k => getStatusKey(k).status === 'valida').length;
             document.getElementById('chavesPausadas').textContent = keys.filter(k => k.paused).length;
+            document.getElementById('chavesUsadas').textContent = keys.filter(k => k.used).length;
+            document.getElementById('chavesExpiradas').textContent = keys.filter(k => !k.used && !k.paused && new Date(k.expiresAt) < new Date()).length;
             document.getElementById('totalBlacklist').textContent = blacklist.length;
         }
 
-        // ============================================
-        // FUNÇÕES AUXILIARES
-        // ============================================
-        
         function copiarTexto(texto) {
             navigator.clipboard.writeText(texto).then(() => {
-                mostrarToast('✅ Copiado para área de transferência!', 'success');
+                mostrarToast('✅ Copiado!', 'success');
             }).catch(() => {
                 mostrarToast('❌ Erro ao copiar!', 'error');
             });
@@ -988,9 +999,8 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
             const scriptTexto = document.getElementById('scriptPersonalizadoTexto');
             
             if (!chave) return mostrarToast('Digite uma chave!', 'error');
-            if (!keys.find(k => k.key === chave)) return mostrarToast('Chave inválida!', 'error');
             
-            const script = `_G.Key =  "${chave}"\nloadstring(game:HttpGet("${SITE_URL}/script.lua"))()`;
+            const script = `_G.Key =  "${chave}"\nloadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()`;
             scriptTexto.textContent = script;
             scriptDiv.classList.remove('hidden');
             mostrarToast('Script gerado!', 'success');
@@ -1004,28 +1014,31 @@ loadstring(game:HttpGet("https://key-system-kappa.vercel.app/script.lua"))()</pr
         }
 
         // ============================================
-        // INICIALIZAÇÃO E API
+        // API PARA O SCRIPT LUA
         // ============================================
-        
-        window.addEventListener('load', async function() {
-            await carregarDados();
+        window.addEventListener('load', function() {
+            carregarDados();
             
             const params = new URLSearchParams(window.location.search);
             const key = params.get('key');
             const nick = params.get('nick');
             
             if (key && nick) {
-                if (verificarBlacklist(nick)) { 
-                    document.body.innerHTML = 'blacklist'; 
-                    return; 
-                }
-                
-                const chave = keys.find(k => k.key === key.toUpperCase());
-                if (chave && !chave.used && !chave.paused && chave.nickname === nick && new Date(chave.expiresAt) > new Date()) {
-                    document.body.innerHTML = 'valida';
-                } else {
-                    document.body.innerHTML = 'invalida';
-                }
+                setTimeout(() => {
+                    if (verificarBlacklist(nick)) { 
+                        document.write('blacklist'); 
+                        return; 
+                    }
+                    
+                    const chave = keys.find(k => k.key === key.toUpperCase());
+                    if (!chave) {
+                        document.write('invalida');
+                        return;
+                    }
+                    
+                    const status = getStatusKey(chave);
+                    document.write(status.status);
+                }, 1000);
             }
         });
     </script>
